@@ -1,0 +1,35 @@
+name: Build and Push image to Azure - Client
+
+on:
+  push:
+    branches:
+      - release
+
+env:
+  TEAM_IMAGE: client-team
+
+jobs:
+    build-and-deploy-client:
+        runs-on: ubuntu-latest
+        steps:
+            - name: "Checkout GitHub Action"
+              uses: actions/checkout@v2
+
+            - name: "Login via Azure CLI"
+              uses: azure/login@v1
+              with:
+                  creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+            - name: "Build and push"
+              uses: azure/docker-login@v1
+              with:
+                  login-server: HubssonHackathon.azurecr.io
+                  username: ${{ secrets.REGISTRY_USERNAME }}
+                  password: ${{ secrets.REGISTRY_PASSWORD }}
+            - run: |
+                  docker build . -t HubssonHackathon.azurecr.io/${{ env.TEAM_IMAGE }}:${{ github.sha }}
+                  docker push HubssonHackathon.azurecr.io/${{ env.TEAM_IMAGE }}:${{ github.sha }}
+
+            - name: Azure logout
+              run: |
+                  az logout

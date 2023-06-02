@@ -1,0 +1,13 @@
+{
+	"compilerOptions": {
+		"outDir": "dist",
+		"baseUrl": ".",
+		"esModuleInterop": true,
+		"target": "es2020",
+		"module": "CommonJS"
+	},
+	"include": [
+		"app/**/*"
+, 		"libs/**/*"
+	]
+}

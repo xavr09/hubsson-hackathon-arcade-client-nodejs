@@ -1,0 +1,25 @@
+{
+  "name": "hubsson-hackathon-arcade-client-nodejs",
+  "version": "1.0.0",
+  "description": "Hubsson Hackhathon Arcade 2023 Client",
+  "engines": {
+    "node": ">= 18.16.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node ./dist/app/main.js",
+    "watch": "tsc --watch",
+    "nodemon": "nodemon -q dist/app/main.js",
+    "serve": "concurrently \"npm run watch\" \"npm run nodemon\""
+  },
+  "dependencies": {
+    "socket.io-client": "^4.6.2"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.9",
+    "concurrently": "^8.1.0",
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.3"
+  }
+}
