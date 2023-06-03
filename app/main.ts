@@ -11,7 +11,7 @@ gameClient.onGameStart((): void => {
 	console.log("Game started!");
 });
 
-gameClient.onGameUpdate((gameState: GameState): void => {
+gameClient.onGameUpdate ((gameState: GameState): void => {
 	console.log("Game State received");
 	//gameClient.sendAction(Direction.RIGHT, gameState.iteration);
 
@@ -36,7 +36,6 @@ gameClient.onGameUpdate((gameState: GameState): void => {
 			let xPrevCoord = 0;
 			let yPrevCoord = 0;
 			let direction = "";
-
 			if(len >=2){
 				previousPosition = len -2;
 				xPrevCoord = gameState.players[i].coordinates[previousPosition].x;
@@ -46,10 +45,11 @@ gameClient.onGameUpdate((gameState: GameState): void => {
 			let xCoord = gameState.players[i].coordinates[currentPosition].x;
 			let yCoord = gameState.players[i].coordinates[currentPosition].y;
 			
-			console.log("(xPrevCoord, xPrevCoord) = (" + xPrevCoord + ", " + xPrevCoord + ")");
+			
+			console.log("(xPrevCoord, xPrevCoord) = (" + xPrevCoord + ", " + yPrevCoord + ")");
 			console.log("(xCoord, yCoord) = (" + xCoord + ", " + yCoord + ")");
-			direction = checkDirection(xCoord, yCoord, xPrevCoord, xPrevCoord);
-			console.log("direction = " + direction);
+			direction = checkDirection(xCoord, yCoord, xPrevCoord, yPrevCoord);
+			console.log("##############direction################# = " + direction);
 			if (direction ===  Direction.UP && yCoord < 45){
 				gameClient.run();
 				gameClient.sendAction(Direction.RIGHT, gameState.iteration);
