@@ -6,7 +6,7 @@ on:
       - release
 
 env:
-  TEAM_IMAGE: client-team
+  TEAM_IMAGE: arcnade
 
 jobs:
     build-and-deploy-client:
