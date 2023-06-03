@@ -55,14 +55,27 @@ gameClient.onGameUpdate ((gameState: GameState): void => {
 			let yCoord = gameState.players[i].coordinates[currentPosition].y;
 			console.log("(xPrevCoord, xPrevCoord) = (" + xPrevCoord + ", " + yPrevCoord + ")");
 			console.log("(xCoord, yCoord) = (" + xCoord + ", " + yCoord + ")");	
-			if(yCoord === 2 || yCoord === gameState.height - 2){
+			if(yCoord === 2){
 				direction = Direction.LEFT;			
-				if(xCoord === 2 || xCoord === gameState.width - 2){
-					direction = Direction.UP;
+				console.log("yCoord if 1");	
+				if(xCoord === 2){
+					direction = Direction.RIGHT;
+					console.log("xCoord if 1 ");
+				}else if(xCoord === gameState.width - 2){
+					direction = Direction.DOWN;
+					console.log("xCoord if 2");
 				}	
-			}else if(xCoord === 2 || xCoord === gameState.width - 2){
-				direction = Direction.UP;
-			}	
+			}else if(yCoord === gameState.height - 2){
+				direction = Direction.LEFT;			
+				console.log("yCoord if 2 ");	
+				if(xCoord === 2){
+					direction = Direction.UP;
+					console.log("xCoord if 1 ");
+				}else if(xCoord === gameState.width - 2){
+					direction = Direction.LEFT;
+					console.log("xCoord if 2");
+				}
+			}
 		}		
 	}
 	gameClient.sendAction(direction, gameState.iteration);
