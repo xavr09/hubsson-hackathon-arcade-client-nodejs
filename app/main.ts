@@ -6,6 +6,9 @@ import { config } from "./config";
 
 const gameClient = new GameClient(config);
 let xyCoordinates: Coordinate[] = [];
+let count = 4;
+let direction = Direction.DOWN;
+let playerId = "";
 
 gameClient.onGameStart((): void => {
 	console.log("Game started!");
@@ -13,14 +16,18 @@ gameClient.onGameStart((): void => {
 
 gameClient.onGameUpdate ((gameState: GameState): void => {
 	console.log("Game State received");
-	//gameClient.sendAction(Direction.RIGHT, gameState.iteration);
-
 	console.log("height = " + gameState.height);
 	console.log("width = " + gameState.width);
-	console.log("iteration = " + gameState.iteration);
-	console.log("Players Size = " + gameState.players.length);
-	let playerId = "";
 	let len = 0;
+	if(count % 4 ===0){
+		direction = Direction.DOWN;		
+	} else if(count % 4 === 1){
+		direction = Direction.RIGHT;	
+	} else if(count % 4 === 2){
+		direction = Direction.DOWN;
+	} else if(count % 4 === 3){
+		direction = Direction.LEFT;
+	}
 	for( let i = 0; i < gameState.players.length; i++){
 		playerId = gameState.players[i].playerId;
 		console.log("Player Id = " + playerId);
@@ -30,18 +37,13 @@ gameClient.onGameUpdate ((gameState: GameState): void => {
 				xyCoordinates.push(gameState.players[i].coordinates[j]);
 			}												
 		}
-
-
 		if (playerId === 'arcnade'){	
 			len = gameState.players[i].coordinates.length;
 			console.log("##############len################# = " + len);
 			let previousPosition = 0;
 			let xPrevCoord = 0;
 			let yPrevCoord = 0;
-			let direction = "";
 			if(len >=2){
-
-
 				previousPosition = len -2;
 				console.log("##############previousPosition################# = " + previousPosition);
 				xPrevCoord = gameState.players[i].coordinates[previousPosition].x;
@@ -51,37 +53,22 @@ gameClient.onGameUpdate ((gameState: GameState): void => {
 			console.log("##############currentPosition################# = " + currentPosition);
 			let xCoord = gameState.players[i].coordinates[currentPosition].x;
 			let yCoord = gameState.players[i].coordinates[currentPosition].y;
-			
 			console.log("(xPrevCoord, xPrevCoord) = (" + xPrevCoord + ", " + yPrevCoord + ")");
-			console.log("(xCoord, yCoord) = (" + xCoord + ", " + yCoord + ")");
-			direction = checkDirection(xCoord, yCoord, xPrevCoord, yPrevCoord);
-			console.log("##############direction################# = " + direction);
-			if (direction ===  Direction.UP && yCoord <= 45){
-				gameClient.run();
-				gameClient.sendAction(Direction.RIGHT, gameState.iteration);
-				console.log("Gamestate Direction RIGHT received");
-			}else if (direction ===  Direction.RIGHT && xCoord < gameState.width - 10){
-				gameClient.run();
-				gameClient.sendAction(Direction.UP, gameState.iteration);				
-				console.log("Gamestate Direction UP received");
-			}else if (checkCoordinates(xCoord + 1, yCoord) === 0){
-				gameClient.run();
-				gameClient.sendAction(Direction.RIGHT, gameState.iteration);
-				console.log("Gamestate Direction RIGHT received");
-			}else if (checkCoordinates(xCoord, yCoord + 1) === 0){
-				gameClient.run();
-				gameClient.sendAction(Direction.UP, gameState.iteration);				
-				console.log("Gamestate Direction UP received");
-			}else if (checkCoordinates(xCoord, yCoord - 1) === 0){
-				gameClient.run();
-				gameClient.sendAction(Direction.DOWN, gameState.iteration);				
-				console.log("Gamestate Direction DOWN received");
-			}else if (checkCoordinates(xCoord - 1, yCoord) === 0){
-				gameClient.run();
-				gameClient.sendAction(Direction.LEFT, gameState.iteration);				
-				console.log("Gamestate Direction LEFT received");
+			console.log("(xCoord, yCoord) = (" + xCoord + ", " + yCoord + ")");	
+			if(yCoord === 2 || yCoord === gameState.height - 2){
+				direction = Direction.LEFT;			
+				if(xCoord === 2 || xCoord === gameState.width - 2){
+					direction = Direction.UP;
+				}	
+			}else if(xCoord === 2 || xCoord === gameState.width - 2){
+				direction = Direction.UP;
 			}	
-			console.log("Gamestate update completed!");			
+		}		
+	}
+	gameClient.sendAction(direction, gameState.iteration);
+	console.log("################ Direction ##############" + direction);	
+	count++;
+	console.log("Gamestate update completed!");			
 });
 
 //direction
