@@ -28,29 +28,35 @@ gameClient.onGameUpdate ((gameState: GameState): void => {
 		for( let j = 0; j < len; j++){
 			if(xyCoordinates.indexOf(gameState.players[i].coordinates[j]) === -1){
 				xyCoordinates.push(gameState.players[i].coordinates[j]);
-			}									
+			}												
 		}
+
+
 		if (playerId === 'arcnade'){	
 			len = gameState.players[i].coordinates.length;
+			console.log("##############len################# = " + len);
 			let previousPosition = 0;
 			let xPrevCoord = 0;
 			let yPrevCoord = 0;
 			let direction = "";
 			if(len >=2){
+
+
 				previousPosition = len -2;
+				console.log("##############previousPosition################# = " + previousPosition);
 				xPrevCoord = gameState.players[i].coordinates[previousPosition].x;
 				yPrevCoord = gameState.players[i].coordinates[previousPosition].y;
 			}		
 			let currentPosition = len - 1;
+			console.log("##############currentPosition################# = " + currentPosition);
 			let xCoord = gameState.players[i].coordinates[currentPosition].x;
 			let yCoord = gameState.players[i].coordinates[currentPosition].y;
-			
 			
 			console.log("(xPrevCoord, xPrevCoord) = (" + xPrevCoord + ", " + yPrevCoord + ")");
 			console.log("(xCoord, yCoord) = (" + xCoord + ", " + yCoord + ")");
 			direction = checkDirection(xCoord, yCoord, xPrevCoord, yPrevCoord);
 			console.log("##############direction################# = " + direction);
-			if (direction ===  Direction.UP && yCoord < 45){
+			if (direction ===  Direction.UP && yCoord <= 45){
 				gameClient.run();
 				gameClient.sendAction(Direction.RIGHT, gameState.iteration);
 				console.log("Gamestate Direction RIGHT received");
@@ -75,6 +81,7 @@ gameClient.onGameUpdate ((gameState: GameState): void => {
 				gameClient.sendAction(Direction.LEFT, gameState.iteration);				
 				console.log("Gamestate Direction LEFT received");
 			}	
+			console.log("Gamestate update completed!");			
 });
 
 //direction
@@ -100,6 +107,7 @@ function checkCoordinates (x: number, y: number): number {
 		}										
 	}
 	return 0;
+
 }
 gameClient.run();
 
