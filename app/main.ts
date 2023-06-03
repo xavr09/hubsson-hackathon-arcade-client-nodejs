@@ -46,6 +46,7 @@ gameClient.onGameUpdate ((gameState: GameState): void => {
 			let yCoord = gameState.players[i].coordinates[currentPosition].y;
 			
 			
+
 			console.log("(xPrevCoord, xPrevCoord) = (" + xPrevCoord + ", " + yPrevCoord + ")");
 			console.log("(xCoord, yCoord) = (" + xCoord + ", " + yCoord + ")");
 			direction = checkDirection(xCoord, yCoord, xPrevCoord, yPrevCoord);
