@@ -77,7 +77,7 @@ gameClient.onGameUpdate((gameState: GameState): void => {
 			}	
 });
 
-
+//direction
 function checkDirection (x: number, y: number, xPrev: number, yPrev: number): string {
 	console.log("[checkDirection](x, y) = (" + x + ", " + y + ")");
 	if(x === xPrev && y > yPrev){
